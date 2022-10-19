@@ -3,9 +3,15 @@
 #include <Arduino.h>
 #include <WiFiClient.h>
 #include <HTTP_Method.h>
+#include <WebServer.h>
 
-
-
+#include <ESPAsyncWebServer.h>//
+#include <Uri.h> //
+#include <SPI.h>//
+ #include <AsyncTCP.h>//
+ 
+#define USE_SERIAL Serial
+AsyncWebServer server(80);
 const char* ssid  = "Galaxy S2267C8";
 const char* password = "nxzz5758";
 String numberToText = "16308006164";
