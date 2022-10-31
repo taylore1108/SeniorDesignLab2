@@ -20,13 +20,36 @@ String messageToText = "The sengal has been interupted";
 const char* ssid  = "Galaxy S2267C8";
 const char* password = "nxzz5758";
 String numberToText = "16308006164";
-
+const int button = 39; 
+int oldvalue =0;
 void setup() {
   // put your setup code here, to run once:
   USE_SERIAL.begin(115200);
-  initWiFi();
-  server.begin();
+  pinMode(button,INPUT);
+  //initWiFi();
+  //server.begin();
 }
+
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int pin34value = analogRead(button);
+  if(pin34value!=oldvalue){
+    //Serial.println("OldValue: "+pin34value);
+    oldvalue=pin34value;
+//    Serial.println(
+  }
+  Serial.println( pin34value);
+   if (pin34value>5000){
+      Serial.println("high");
+      //sendText();
+      //delay(2000);
+      
+   }
+   delay(5);
+}
+
 
 void initWiFi() {
     USE_SERIAL.println();
@@ -48,17 +71,6 @@ void initWiFi() {
     Serial.println(WiFi.localIP());    
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-
-
-  delay(200);
-}
-
-bool readReceiver(){
-  
-}
-
 void setupDateTime() {
   // setup this after wifi connected
   // you can use custom timeZone,server and timeout
@@ -77,17 +89,18 @@ void setupDateTime() {
 }
 
 String makeMessage(){
-  String m;
-  time_t t= now();
-
-  if(isAm(t)){
-    m = "AM";
-  }
-  else{
-    m = "PM";
-  }
-  String s =  "Critical Safety Event at " + hourFormat12(t) + "\:" + minute(t) + "  " + m + " on " + month(t) + "\/" + day(t) + "\/2022";
-  return s;
+  return "Send Message";
+//  String m;
+//  time_t t= now();
+//
+//  if(isAm(t)){
+//    m = "AM";
+//  }
+//  else{
+//    m = "PM";
+//  }
+//  String s =  "Critical Safety Event at " + hourFormat12(t) + "\:" + minute(t) + "  " + m + " on " + month(t) + "\/" + day(t) + "\/2022";
+//  return s;
 }
 
 
