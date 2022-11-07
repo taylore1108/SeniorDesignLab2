@@ -9,7 +9,7 @@
 #include <ESPAsyncWebServer.h>//
 #include <Uri.h> //
 #include <SPI.h>//
- #include <AsyncTCP.h>//
+#include <AsyncTCP.h>//
  
 #define USE_SERIAL Serial
 AsyncWebServer server(80);
@@ -20,34 +20,45 @@ String messageToText = "The sengal has been interupted";
 const char* ssid  = "Galaxy S2267C8";
 const char* password = "nxzz5758";
 String numberToText = "16308006164";
-const int button = 39; 
+const int button = 34; 
+int LEDpin = 25;
 int oldvalue =0;
+bool changedValue=false;
+const int ONBOARD_LED = 32;
+
 void setup() {
   // put your setup code here, to run once:
   USE_SERIAL.begin(115200);
-  pinMode(button,INPUT);
-  //initWiFi();
-  //server.begin();
+  pinMode(ONBOARD_LED,OUTPUT);
+  //pinMode(button,INPUT);
+  initWiFi();
+  server.begin();
 }
-
-
 
 void loop() {
   // put your main code here, to run repeatedly:
   int pin34value = analogRead(button);
   if(pin34value!=oldvalue){
-    //Serial.println("OldValue: "+pin34value);
-    oldvalue=pin34value;
-//    Serial.println(
+    Serial.print("OldValue: ");
+    Serial.println(pin34value);
+    if(pin34value<3000 and oldvalue>3000){
+      digitalWrite(ONBOARD_LED,LOW);
+      sendText();
+      Serial.println("led set to high");
+    }else if(pin34value>3000 and oldvalue<3000){
+      digitalWrite(ONBOARD_LED,HIGH);
+      Serial.println("led set to low");
+    }else{
+      Serial.println("Fell into bad else/signal is blocked ");
+    }
+    oldvalue=pin34value; 
   }
   Serial.println( pin34value);
-   if (pin34value>5000){
-      Serial.println("high");
-      //sendText();
-      //delay(2000);
-      
-   }
-   delay(5);
+//  if (oldvalue<3000){ // is blocked show led high and text 
+//      digitalWrite(ONBOARD_LED,HIGH);
+//      sendText();
+//   }
+   delay(500);
 }
 
 
